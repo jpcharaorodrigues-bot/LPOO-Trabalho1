@@ -7,7 +7,6 @@
 
 package lpoo.util;
 
-import lpoo.geom.*;
 import lpoo.math.*;
 import lpoo.phyx.*;
 import java.io.*;
@@ -21,26 +20,161 @@ import java.util.*;
  */
 public final class SceneReader
 {
-  public static List<RigidBody> read(File file)
+  public static Scene read(File file)
     throws FileNotFoundException
   {
     try (Scanner sc = new Scanner(file))
     {
-      return new SceneReader(sc).readFile();
+      sc.useLocale(Locale.US);
+      return new SceneReader(sc, sceneName(file)).readFile();
     }
   }
 
-  private final Scanner sc;
-
-  private SceneReader(Scanner sc)
+  private static String sceneName(File file)
   {
-    this.sc = sc;
+    String name = file.getName();
+    int i = name.lastIndexOf('.');
+
+    return i > 0 ? name.substring(0, i) : name;
   }
 
-  private List<RigidBody> readFile()
+  private Scene readFile()
   {
-    // TODO: insert your here
-    return null;
+    Scene scene = new Scene(name);
+
+    String section = sc.next();
+
+    if (section.equals("composites"))
+    {
+      int count = sc.nextInt();
+
+      for (int i = 0; i < count; i++)
+        readCompositeDefinition();
+
+      section = sc.next();
+    }
+
+    if (!section.equals("actors"))
+      throw new IllegalArgumentException("actors expected");
+
+    int count = sc.nextInt();
+
+    for (int i = 0; i < count; i++)
+      scene.add(readRigidBody());
+
+    return scene;
+  }
+
+  private void readCompositeDefinition()
+  {
+    expect("composite");
+
+    String name = sc.next();
+    int count = sc.nextInt();
+
+    Composite composite = new Composite(
+      name, Vector3.NULL, Quaternion.IDENTITY);
+
+    for (int i = 0; i < count; i++)
+      composite.add(readShape());
+
+    composites.put(name, composite);
+  }
+
+  private RigidBody readRigidBody()
+  {
+    expect("body");
+
+    String name = sc.next();
+    Vector3 translation = readVector3();
+    Quaternion rotation = readQuaternion();
+    Shape shape = readShape();
+
+    return new RigidBody(name, translation, rotation, shape);
+  }
+
+  private Shape readShape()
+  {
+    String type = sc.next();
+    String name = sc.next();
+    Vector3 translation = readVector3();
+    Quaternion rotation = readQuaternion();
+
+    if (type.equals("box"))
+    {
+      float density = sc.nextFloat();
+      float sx = sc.nextFloat();
+      float sy = sc.nextFloat();
+      float sz = sc.nextFloat();
+
+      return new Box(
+        name, translation, rotation, density, sx, sy, sz);
+    }
+
+    if (type.equals("sphere"))
+    {
+      float density = sc.nextFloat();
+      float radius = sc.nextFloat();
+
+      return new Sphere(
+        name, translation, rotation, density, radius);
+    }
+
+    if (type.equals("cylinder"))
+    {
+      float density = sc.nextFloat();
+      float radius = sc.nextFloat();
+      float halfHeight = sc.nextFloat();
+
+      return new Cylinder(
+        name, translation, rotation, density, radius, halfHeight);
+    }
+
+    if (type.equals("capsule"))
+    {
+      float density = sc.nextFloat();
+      float radius = sc.nextFloat();
+      float halfHeight = sc.nextFloat();
+
+      return new Capsule(
+        name, translation, rotation, density, radius, halfHeight);
+    }
+
+    if (type.equals("composite"))
+    {
+      int count = sc.nextInt();
+      Composite composite =
+        new Composite(name, translation, rotation);
+
+      for (int i = 0; i < count; i++)
+        composite.add(readShape());
+
+      return composite;
+    }
+
+    if (type.equals("instance"))
+    {
+      String compositeName = sc.next();
+      Composite composite = composites.get(compositeName);
+
+      if (composite == null)
+        throw new IllegalArgumentException(
+          "undefined composite: " + compositeName);
+
+      return new CompositeInstance(
+        name, translation, rotation, composite);
+    }
+
+    throw new IllegalArgumentException(
+      "unknown shape type: " + type);
+  }
+
+  private void expect(String value)
+  {
+    String token = sc.next();
+
+    if (!token.equals(value))
+      throw new IllegalArgumentException(value + " expected");
   }
 
   private Vector3 readVector3()
@@ -60,6 +194,17 @@ public final class SceneReader
     float w = sc.nextFloat();
 
     return new Quaternion(x, y, z, w);
+  }
+
+  private final Scanner sc;
+  private final String name;
+  private final Map<String, Composite> composites;
+
+  private SceneReader(Scanner sc, String name)
+  {
+    this.sc = sc;
+    this.name = name;
+    composites = new HashMap<>();
   }
 
 } // SceneReader
