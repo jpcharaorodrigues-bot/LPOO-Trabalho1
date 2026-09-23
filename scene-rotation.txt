@@ -1,0 +1,11 @@
+actors 3
+
+body corpoCaixaRotacionada 1 2 3 0 0 0.70710677 0.70710677
+box caixaRotacionada 0 0 0 0 0 0 1 2 1 2 3
+
+body corpoCilindroRotacionado 0 0 0 0 0 0 1
+cylinder cilindroRotacionado 0 0 0 0.70710677 0 0 0.70710677 4 2 3
+
+body corpoCompostoRotacionado 0 0 0 0 0 0 1
+composite compostoRotacionado 0 0 0 0 0 0 1 1
+box caixaFilhaRotacionada 0 0 0 0 0 0.70710677 0.70710677 1 1 2 3

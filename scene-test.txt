@@ -1,0 +1,24 @@
+composites 1
+composite conjunto 2
+box caixaComposta 0 0 0 0 0 0 1 1 1 2 3
+sphere esferaComposta 3 0 0 0 0 0 1 1 1
+
+actors 5
+body corpoCaixa 0 0 0 0 0 0 1
+box caixa 0 0 0 0 0 0 1 2 1 2 3
+
+body corpoEsfera 5 0 0 0 0 0 1
+sphere esfera 0 0 0 0 0 0 1 3 2
+
+body corpoCilindro 0 5 0 0 0 0 1
+cylinder cilindro 0 0 0 0 0 0 1 4 2 3
+
+body corpoCapsula 0 0 5 0 0 0 1
+capsule capsula 0 0 0 0 0 0 1 5 1 2
+
+body corpoComposto 10 0 0 0 0 0 1
+composite compostoPrincipal 0 0 0 0 0 0 1 2
+instance instanciaConjunto 0 0 0 0 0 0 1 conjunto
+composite compostoInterno 0 4 0 0 0 0 1 2
+sphere esferaInterna 0 0 0 0 0 0 1 1 1
+box caixaInterna 2 0 0 0 0 0 1 1 1 1 1
