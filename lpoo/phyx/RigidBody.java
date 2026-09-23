@@ -1,11 +1,18 @@
-package lpoo.physx;
+/*
+ * Autores:
+ * João Pedro Rodrigues Charão
+ * Guilherme Peres Pinto
+ */
+
+package lpoo.phyx;
 
 import lpoo.geom.*;
 import lpoo.math.*;
 
 /**
  *
- * @author insert your name here
+ * @author João Pedro Rodrigues Charão
+ * @author Guilherme Peres Pinto
  */
 public final class RigidBody
 {

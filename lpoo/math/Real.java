@@ -8,6 +8,8 @@ public class Real
 {
   public static final float EPS = 1e-6f;
 
+  private float value;
+
   public static boolean isZero(float a)
   {
     return Math.abs(a) <= EPS;

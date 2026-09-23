@@ -1,3 +1,9 @@
+/*
+ * Autores:
+ * João Pedro Rodrigues Charão
+ * Guilherme Peres Pinto
+ */
+
 package lpoo.util;
 
 import lpoo.geom.*;
@@ -8,9 +14,10 @@ import java.util.*;
 
 /**
  *
- * @author insert your name here
+ * @author João Pedro Rodrigues Charão
+ * @author Guilherme Peres Pinto
  */
-public final class SceneParser
+public final class SceneReader
 {
   public static List<RigidBody> read(File file)
     throws FileNotFoundException
@@ -23,7 +30,7 @@ public final class SceneParser
 
   private final Scanner sc;
 
-  private SceneParser(Scanner sc)
+  private SceneReader(Scanner sc)
   {
     this.sc = sc;
   }
