@@ -67,6 +67,14 @@ public final class Matrix3
     return new Matrix3(r);
   }
 
+  public Vector3 mul(Vector3 v)
+  {
+    return new Vector3(
+      data[0][0] * v.x + data[0][1] * v.y + data[0][2] * v.z,
+      data[1][0] * v.x + data[1][1] * v.y + data[1][2] * v.z,
+      data[2][0] * v.x + data[2][1] * v.y + data[2][2] * v.z);
+  }
+
   public Matrix3 mul(Matrix3 m)
   {
     float[][] r = new float[3][3];
