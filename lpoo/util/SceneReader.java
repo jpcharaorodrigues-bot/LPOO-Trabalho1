@@ -1,6 +1,7 @@
 /*
  * Autores:
  * João Pedro Rodrigues Charão
+ * Pedro Henrique da Silva Mendes
  * Guilherme Peres Pinto
  */
 
@@ -15,6 +16,7 @@ import java.util.*;
 /**
  *
  * @author João Pedro Rodrigues Charão
+ * @author Pedro Henrique da Silva Mendes
  * @author Guilherme Peres Pinto
  */
 public final class SceneReader
