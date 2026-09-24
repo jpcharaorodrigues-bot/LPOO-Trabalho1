@@ -65,6 +65,14 @@ public final class Vector3
     return x * v.x + y * v.y + z * v.z;
   }
 
+  public Vector3 cross(Vector3 v)
+  {
+    return new Vector3(
+      y * v.z - z * v.y,
+      z * v.x - x * v.z,
+      x * v.y - y * v.x);
+  }
+
   public float normSquared()
   {
     return dot(this);
