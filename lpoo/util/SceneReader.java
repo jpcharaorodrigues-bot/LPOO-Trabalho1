@@ -21,12 +21,15 @@ import java.util.*;
 public final class SceneReader
 {
   public static Scene read(File file)
-    throws FileNotFoundException
+    throws IOException
   {
     try (Scanner sc = new Scanner(file))
     {
       sc.useLocale(Locale.US);
-      return new SceneReader(sc, sceneName(file)).readFile();
+      File directory = file.getAbsoluteFile().getParentFile();
+
+      return new SceneReader(
+        sc, sceneName(file), directory).readFile();
     }
   }
 
@@ -39,6 +42,7 @@ public final class SceneReader
   }
 
   private Scene readFile()
+    throws IOException
   {
     Scene scene = new Scene(name);
 
@@ -66,6 +70,7 @@ public final class SceneReader
   }
 
   private void readCompositeDefinition()
+    throws IOException
   {
     expect("composite");
 
@@ -82,6 +87,7 @@ public final class SceneReader
   }
 
   private RigidBody readRigidBody()
+    throws IOException
   {
     expect("body");
 
@@ -94,6 +100,7 @@ public final class SceneReader
   }
 
   private Shape readShape()
+    throws IOException
   {
     String type = sc.next();
     String name = sc.next();
@@ -138,6 +145,19 @@ public final class SceneReader
 
       return new Capsule(
         name, translation, rotation, density, radius, halfHeight);
+    }
+
+    if (type.equals("mesh"))
+    {
+      float density = sc.nextFloat();
+      String filename = sc.next();
+      File file = new File(filename);
+
+      if (!file.isAbsolute())
+        file = new File(directory, filename);
+
+      return new Mesh(
+        name, translation, rotation, density, ObjReader.read(file));
     }
 
     if (type.equals("composite"))
@@ -198,12 +218,14 @@ public final class SceneReader
 
   private final Scanner sc;
   private final String name;
+  private final File directory;
   private final Map<String, Composite> composites;
 
-  private SceneReader(Scanner sc, String name)
+  private SceneReader(Scanner sc, String name, File directory)
   {
     this.sc = sc;
     this.name = name;
+    this.directory = directory;
     composites = new HashMap<>();
   }
 

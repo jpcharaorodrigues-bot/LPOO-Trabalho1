@@ -10,12 +10,14 @@ A1 - Concluída.
 A2 - Concluída.
 A3 - Concluída.
 A4 - Concluída.
-A5 - Não implementada.
+A5 - Concluída.
 A6 - Pendente.
 
 Arquivos de teste:
 scene-test.txt
 scene-rotation.txt
+scene-mesh.txt
+cube.obj
 
 Link do vídeo:
 PENDENTE

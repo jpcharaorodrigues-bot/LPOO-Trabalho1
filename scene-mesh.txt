@@ -1,0 +1,4 @@
+actors 1
+
+body corpoMalha 0 0 0 0 0 0 1
+mesh malhaCubo 0 0 0 0 0 0 1 1 cube.obj
