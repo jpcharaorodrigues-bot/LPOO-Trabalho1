@@ -10,12 +10,6 @@ package lpoo.phyx;
 import lpoo.geom.*;
 import lpoo.math.*;
 
-/**
- *
- * @author João Pedro Rodrigues Charão
- * @author Pedro Henrique da Silva Mendes
- * @author Guilherme Peres Pinto
- */
 public final class Box
   extends Primitive
 {
@@ -66,10 +60,10 @@ public final class Box
       new Vector3(sx, sy, sz));
   }
 
-  public Box(String name, Vector3 translation, Quaternion rotation,
-    float density, float sx, float sy, float sz)
+  public Box(String name, float sx, float sy, float sz,
+    float density, Pose pose)
   {
-    super(name, translation, rotation, density);
+    super(name, pose, density);
     this.sx = sx;
     this.sy = sy;
     this.sz = sz;

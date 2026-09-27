@@ -11,12 +11,11 @@ import lpoo.geom.*;
 import lpoo.math.*;
 
 public final class Mesh
-        extends Primitive
+  extends Primitive
 {
-  public Mesh(String name, Vector3 translation, Quaternion rotation,
-    float density, TriangleMesh mesh)
+  public Mesh(String name, float density, TriangleMesh mesh, Pose pose)
   {
-    super(name, translation, rotation, density);
+    super(name, pose, density);
     this.mesh = mesh;
   }
 
@@ -34,6 +33,7 @@ public final class Mesh
 
       area += b.sub(a).cross(c.sub(a)).norm() * 0.5f;
     }
+
     return area;
   }
 
@@ -51,6 +51,7 @@ public final class Mesh
 
       volume += a.dot(b.cross(c)) / 6.0f;
     }
+
     return Math.abs(volume);
   }
 

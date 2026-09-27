@@ -10,12 +10,6 @@ package lpoo.phyx;
 import lpoo.geom.*;
 import lpoo.math.*;
 
-/**
- *
- * @author João Pedro Rodrigues Charão
- * @author Pedro Henrique da Silva Mendes
- * @author Guilherme Peres Pinto
- */
 public abstract class Shape
 {
   public final String name()
@@ -23,14 +17,24 @@ public abstract class Shape
     return name;
   }
 
+  public final Pose pose()
+  {
+    return pose;
+  }
+
   public final Vector3 translation()
   {
-    return translation;
+    return pose.translation();
   }
 
   public final Quaternion rotation()
   {
-    return rotation;
+    return pose.rotation();
+  }
+
+  public final void setPose(Pose pose)
+  {
+    this.pose = pose;
   }
 
   public abstract float area();
@@ -45,15 +49,13 @@ public abstract class Shape
 
   public abstract Bounds3 bounds();
 
-  protected Shape(String name, Vector3 translation, Quaternion rotation)
+  protected Shape(String name, Pose pose)
   {
     this.name = name;
-    this.translation = translation;
-    this.rotation = rotation;
+    this.pose = pose;
   }
 
   private final String name;
-  private final Vector3 translation;
-  private final Quaternion rotation;
+  private Pose pose;
 
 } // Shape

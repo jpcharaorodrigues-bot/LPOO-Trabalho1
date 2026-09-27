@@ -6,7 +6,6 @@
  */
 
 import lpoo.geom.*;
-import lpoo.math.*;
 import lpoo.phyx.*;
 import lpoo.util.*;
 import java.io.*;
@@ -23,8 +22,7 @@ public final class MeshShapeTest
     }
 
     TriangleMesh mesh = ObjReader.read(args[0]);
-    Mesh shape = new Mesh("mesh", Vector3.NULL,
-      Quaternion.IDENTITY, 1, mesh);
+    Mesh shape = new Mesh("mesh", 1, mesh, Pose.IDENTITY);
 
     System.out.printf("Area: %g\n", shape.area());
     System.out.printf("Volume: %g\n", shape.volume());

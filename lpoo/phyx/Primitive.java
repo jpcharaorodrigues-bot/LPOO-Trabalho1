@@ -9,12 +9,6 @@ package lpoo.phyx;
 
 import lpoo.math.*;
 
-/**
- *
- * @author João Pedro Rodrigues Charão
- * @author Pedro Henrique da Silva Mendes
- * @author Guilherme Peres Pinto
- */
 public abstract class Primitive
   extends Shape
 {
@@ -35,10 +29,9 @@ public abstract class Primitive
     return Vector3.NULL;
   }
 
-  protected Primitive(String name, Vector3 translation, Quaternion rotation,
-    float density)
+  protected Primitive(String name, Pose pose, float density)
   {
-    super(name, translation, rotation);
+    super(name, pose);
     this.density = density;
   }
 

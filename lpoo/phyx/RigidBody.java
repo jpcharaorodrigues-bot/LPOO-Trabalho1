@@ -10,12 +10,6 @@ package lpoo.phyx;
 import lpoo.geom.*;
 import lpoo.math.*;
 
-/**
- *
- * @author João Pedro Rodrigues Charão
- * @author Pedro Henrique da Silva Mendes
- * @author Guilherme Peres Pinto
- */
 public final class RigidBody
 {
   public String name()
@@ -23,14 +17,19 @@ public final class RigidBody
     return name;
   }
 
+  public Pose pose()
+  {
+    return pose;
+  }
+
   public Vector3 translation()
   {
-    return translation;
+    return pose.translation();
   }
 
   public Quaternion rotation()
   {
-    return rotation;
+    return pose.rotation();
   }
 
   public Shape shape()
@@ -55,18 +54,14 @@ public final class RigidBody
 
   public Vector3 centerOfMass()
   {
-    Matrix3 rb = rotation.toRotationMatrix();
-    Matrix3 rs = shape.rotation().toRotationMatrix();
+    Vector3 c = shape.pose().transform(shape.centerOfMass());
 
-    Vector3 c = rs.mul(shape.centerOfMass())
-      .add(shape.translation());
-
-    return rb.mul(c).add(translation);
+    return pose.transform(c);
   }
 
   public Matrix3 inertia()
   {
-    Matrix3 rb = rotation.toRotationMatrix();
+    Matrix3 rb = rotation().toRotationMatrix();
     Matrix3 rs = shape.rotation().toRotationMatrix();
     Matrix3 r = rb.mul(rs);
 
@@ -78,13 +73,7 @@ public final class RigidBody
     Bounds3 b = shape.bounds();
     Vector3 min = b.min();
     Vector3 max = b.max();
-
-    Matrix3 rb = rotation.toRotationMatrix();
-    Matrix3 rs = shape.rotation().toRotationMatrix();
-    Matrix3 r = rb.mul(rs);
-
-    Vector3 t = rb.mul(shape.translation()).add(translation);
-
+    Pose globalPose = pose.compose(shape.pose());
     Bounds3 result = new Bounds3();
 
     for (int x = 0; x < 2; x++)
@@ -96,24 +85,21 @@ public final class RigidBody
             y == 0 ? min.y : max.y,
             z == 0 ? min.z : max.z);
 
-          result.expand(r.mul(p).add(t));
+          result.expand(globalPose.transform(p));
         }
 
     return result;
   }
 
-  public RigidBody(String name, Vector3 translation, Quaternion rotation,
-    Shape shape)
+  public RigidBody(String name, Shape shape, Pose pose)
   {
     this.name = name;
-    this.translation = translation;
-    this.rotation = rotation;
     this.shape = shape;
+    this.pose = pose;
   }
 
   private final String name;
-  private final Vector3 translation;
-  private final Quaternion rotation;
   private final Shape shape;
+  private final Pose pose;
 
 } // RigidBody

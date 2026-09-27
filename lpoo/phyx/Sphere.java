@@ -10,12 +10,6 @@ package lpoo.phyx;
 import lpoo.geom.*;
 import lpoo.math.*;
 
-/**
- *
- * @author João Pedro Rodrigues Charão
- * @author Pedro Henrique da Silva Mendes
- * @author Guilherme Peres Pinto
- */
 public final class Sphere
   extends Primitive
 {
@@ -52,10 +46,9 @@ public final class Sphere
       new Vector3(radius, radius, radius));
   }
 
-  public Sphere(String name, Vector3 translation, Quaternion rotation,
-    float density, float radius)
+  public Sphere(String name, float radius, float density, Pose pose)
   {
-    super(name, translation, rotation, density);
+    super(name, pose, density);
     this.radius = radius;
   }
 

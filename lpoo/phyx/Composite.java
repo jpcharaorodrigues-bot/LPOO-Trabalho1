@@ -11,12 +11,6 @@ import java.util.*;
 import lpoo.geom.*;
 import lpoo.math.*;
 
-/**
- *
- * @author João Pedro Rodrigues Charão
- * @author Pedro Henrique da Silva Mendes
- * @author Guilherme Peres Pinto
- */
 public final class Composite
   extends Shape
 {
@@ -37,6 +31,7 @@ public final class Composite
 
     for (Shape shape : shapes)
       a += shape.area();
+
     return a;
   }
 
@@ -47,6 +42,7 @@ public final class Composite
 
     for (Shape shape : shapes)
       v += shape.volume();
+
     return v;
   }
 
@@ -57,6 +53,7 @@ public final class Composite
 
     for (Shape shape : shapes)
       m += shape.mass();
+
     return m;
   }
 
@@ -72,11 +69,11 @@ public final class Composite
 
     for (Shape shape : shapes)
     {
-      Matrix3 r = shape.rotation().toRotationMatrix();
-      Vector3 p = r.mul(shape.centerOfMass()).add(shape.translation());
+      Vector3 p = shape.pose().transform(shape.centerOfMass());
 
       c = c.add(p.mul(shape.mass()));
     }
+
     return c.mul(1 / m);
   }
 
@@ -91,7 +88,7 @@ public final class Composite
       Matrix3 r = shape.rotation().toRotationMatrix();
       Matrix3 i = r.mul(shape.inertia()).mul(r.transpose());
 
-      Vector3 p = r.mul(shape.centerOfMass()).add(shape.translation());
+      Vector3 p = shape.pose().transform(shape.centerOfMass());
       Vector3 d = p.sub(c);
       float m = shape.mass();
 
@@ -101,6 +98,7 @@ public final class Composite
 
       result = result.add(i).add(shift);
     }
+
     return result;
   }
 
@@ -114,7 +112,6 @@ public final class Composite
       Bounds3 b = shape.bounds();
       Vector3 min = b.min();
       Vector3 max = b.max();
-      Matrix3 r = shape.rotation().toRotationMatrix();
 
       for (int x = 0; x < 2; x++)
         for (int y = 0; y < 2; y++)
@@ -125,15 +122,16 @@ public final class Composite
               y == 0 ? min.y : max.y,
               z == 0 ? min.z : max.z);
 
-            result.expand(r.mul(p).add(shape.translation()));
+            result.expand(shape.pose().transform(p));
           }
     }
+
     return result;
   }
 
-  public Composite(String name, Vector3 translation, Quaternion rotation)
+  public Composite(String name)
   {
-    super(name, translation, rotation);
+    super(name, Pose.IDENTITY);
     shapes = new ArrayList<>();
   }
 

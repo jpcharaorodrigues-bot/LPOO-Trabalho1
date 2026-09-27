@@ -10,12 +10,6 @@ package lpoo.phyx;
 import lpoo.geom.*;
 import lpoo.math.*;
 
-/**
- *
- * @author João Pedro Rodrigues Charão
- * @author Pedro Henrique da Silva Mendes
- * @author Guilherme Peres Pinto
- */
 public final class CompositeInstance
   extends Shape
 {
@@ -60,10 +54,9 @@ public final class CompositeInstance
     return composite.bounds();
   }
 
-  public CompositeInstance(String name, Vector3 translation,
-    Quaternion rotation, Composite composite)
+  public CompositeInstance(String name, Composite composite, Pose pose)
   {
-    super(name, translation, rotation);
+    super(name, pose);
     this.composite = composite;
   }
 

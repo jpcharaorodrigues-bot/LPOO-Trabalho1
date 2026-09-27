@@ -10,12 +10,6 @@ package lpoo.phyx;
 import lpoo.geom.*;
 import lpoo.math.*;
 
-/**
- *
- * @author João Pedro Rodrigues Charão
- * @author Pedro Henrique da Silva Mendes
- * @author Guilherme Peres Pinto
- */
 public final class Capsule
   extends Primitive
 {
@@ -89,10 +83,10 @@ public final class Capsule
         radius));
   }
 
-  public Capsule(String name, Vector3 translation, Quaternion rotation,
-    float density, float radius, float halfHeight)
+  public Capsule(String name, float radius, float halfHeight,
+    float density, Pose pose)
   {
-    super(name, translation, rotation, density);
+    super(name, pose, density);
     this.radius = radius;
     this.halfHeight = halfHeight;
   }

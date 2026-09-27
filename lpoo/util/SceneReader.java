@@ -12,12 +12,6 @@ import lpoo.phyx.*;
 import java.io.*;
 import java.util.*;
 
-/**
- *
- * @author João Pedro Rodrigues Charão
- * @author Pedro Henrique da Silva Mendes
- * @author Guilherme Peres Pinto
- */
 public final class SceneReader
 {
   public static Scene read(File file)
@@ -46,24 +40,10 @@ public final class SceneReader
   {
     Scene scene = new Scene(name);
 
-    String section = sc.next();
+    while (sc.hasNext("composite"))
+      readCompositeDefinition();
 
-    if (section.equals("composites"))
-    {
-      int count = sc.nextInt();
-
-      for (int i = 0; i < count; i++)
-        readCompositeDefinition();
-
-      section = sc.next();
-    }
-
-    if (!section.equals("actors"))
-      throw new IllegalArgumentException("actors expected");
-
-    int count = sc.nextInt();
-
-    for (int i = 0; i < count; i++)
+    while (sc.hasNext())
       scene.add(readRigidBody());
 
     return scene;
@@ -75,118 +55,162 @@ public final class SceneReader
     expect("composite");
 
     String name = sc.next();
-    int count = sc.nextInt();
+    Composite composite = new Composite(name);
 
-    Composite composite = new Composite(
-      name, Vector3.NULL, Quaternion.IDENTITY);
-
-    for (int i = 0; i < count; i++)
+    while (!sc.hasNext("end"))
       composite.add(readShape());
 
+    expect("end");
     composites.put(name, composite);
   }
 
   private RigidBody readRigidBody()
     throws IOException
   {
-    expect("body");
+    expect("actor");
 
     String name = sc.next();
-    Vector3 translation = readVector3();
-    Quaternion rotation = readQuaternion();
+    Pose pose = readPose();
     Shape shape = readShape();
 
-    return new RigidBody(name, translation, rotation, shape);
+    return new RigidBody(name, shape, pose);
   }
 
   private Shape readShape()
     throws IOException
   {
     String type = sc.next();
+
+    switch (type)
+    {
+      case "box":
+        return readBox();
+
+      case "sphere":
+        return readSphere();
+
+      case "cylinder":
+        return readCylinder();
+
+      case "capsule":
+        return readCapsule();
+
+      case "mesh":
+        return readMesh();
+
+      case "composite":
+        return readComposite();
+
+      case "instance":
+        return readInstance();
+
+      default:
+        throw new IllegalArgumentException(
+          "unknown shape type: " + type);
+    }
+  }
+
+  private Box readBox()
+  {
     String name = sc.next();
+    float sx = sc.nextFloat();
+    float sy = sc.nextFloat();
+    float sz = sc.nextFloat();
+    float density = sc.nextFloat();
+    Pose pose = readPose();
+
+    return new Box(name, sx, sy, sz, density, pose);
+  }
+
+  private Sphere readSphere()
+  {
+    String name = sc.next();
+    float radius = sc.nextFloat();
+    float density = sc.nextFloat();
+    Pose pose = readPose();
+
+    return new Sphere(name, radius, density, pose);
+  }
+
+  private Cylinder readCylinder()
+  {
+    String name = sc.next();
+    float radius = sc.nextFloat();
+    float halfHeight = sc.nextFloat();
+    float density = sc.nextFloat();
+    Pose pose = readPose();
+
+    return new Cylinder(
+      name, radius, halfHeight, density, pose);
+  }
+
+  private Capsule readCapsule()
+  {
+    String name = sc.next();
+    float radius = sc.nextFloat();
+    float halfHeight = sc.nextFloat();
+    float density = sc.nextFloat();
+    Pose pose = readPose();
+
+    return new Capsule(
+      name, radius, halfHeight, density, pose);
+  }
+
+  private Mesh readMesh()
+    throws IOException
+  {
+    String name = sc.next();
+    float density = sc.nextFloat();
+    String filename = sc.next();
+    Pose pose = readPose();
+
+    File file = new File(filename);
+
+    if (!file.isAbsolute())
+      file = new File(directory, filename);
+
+    return new Mesh(
+      name, density, ObjReader.read(file), pose);
+  }
+
+  private Composite readComposite()
+    throws IOException
+  {
+    String name = sc.next();
+    Composite composite = new Composite(name);
+
+    while (!sc.hasNext("end"))
+      composite.add(readShape());
+
+    expect("end");
+    composite.setPose(readPose());
+
+    return composite;
+  }
+
+  private CompositeInstance readInstance()
+  {
+    String name = sc.next();
+    String compositeName = sc.next();
+    Composite composite = composites.get(compositeName);
+
+    if (composite == null)
+      throw new IllegalArgumentException(
+        "undefined composite: " + compositeName);
+
+    Pose pose = readPose();
+
+    return new CompositeInstance(name, composite, pose);
+  }
+
+  private Pose readPose()
+  {
+    expect("pose");
+
     Vector3 translation = readVector3();
     Quaternion rotation = readQuaternion();
 
-    if (type.equals("box"))
-    {
-      float density = sc.nextFloat();
-      float sx = sc.nextFloat();
-      float sy = sc.nextFloat();
-      float sz = sc.nextFloat();
-
-      return new Box(
-        name, translation, rotation, density, sx, sy, sz);
-    }
-
-    if (type.equals("sphere"))
-    {
-      float density = sc.nextFloat();
-      float radius = sc.nextFloat();
-
-      return new Sphere(
-        name, translation, rotation, density, radius);
-    }
-
-    if (type.equals("cylinder"))
-    {
-      float density = sc.nextFloat();
-      float radius = sc.nextFloat();
-      float halfHeight = sc.nextFloat();
-
-      return new Cylinder(
-        name, translation, rotation, density, radius, halfHeight);
-    }
-
-    if (type.equals("capsule"))
-    {
-      float density = sc.nextFloat();
-      float radius = sc.nextFloat();
-      float halfHeight = sc.nextFloat();
-
-      return new Capsule(
-        name, translation, rotation, density, radius, halfHeight);
-    }
-
-    if (type.equals("mesh"))
-    {
-      float density = sc.nextFloat();
-      String filename = sc.next();
-      File file = new File(filename);
-
-      if (!file.isAbsolute())
-        file = new File(directory, filename);
-
-      return new Mesh(
-        name, translation, rotation, density, ObjReader.read(file));
-    }
-
-    if (type.equals("composite"))
-    {
-      int count = sc.nextInt();
-      Composite composite =
-        new Composite(name, translation, rotation);
-
-      for (int i = 0; i < count; i++)
-        composite.add(readShape());
-
-      return composite;
-    }
-
-    if (type.equals("instance"))
-    {
-      String compositeName = sc.next();
-      Composite composite = composites.get(compositeName);
-
-      if (composite == null)
-        throw new IllegalArgumentException(
-          "undefined composite: " + compositeName);
-
-      return new CompositeInstance(
-        name, translation, rotation, composite);
-    }
-
-    throw new IllegalArgumentException(
-      "unknown shape type: " + type);
+    return new Pose(translation, rotation);
   }
 
   private void expect(String value)
