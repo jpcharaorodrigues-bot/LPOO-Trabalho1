@@ -5,6 +5,7 @@
  * Guilherme Peres Pinto
  */
 
+import lpoo.geom.*;
 import lpoo.phyx.*;
 import lpoo.util.*;
 import java.io.*;
@@ -29,10 +30,66 @@ public final class SceneTest
 
     Scene scene = SceneReader.read(new File(args[0]));
 
+    testScene(scene);
+
     try (PrintWriter out = new PrintWriter(new File(args[1])))
     {
       SceneReport.write(scene, out);
     }
+  }
+
+  private static void testScene(Scene scene)
+  {
+    Bounds3 sceneBounds = null;
+
+    for (RigidBody body : scene.actors())
+    {
+      body.pose();
+      body.translation();
+
+      testShape(body.shape());
+
+      Bounds3 bounds = body.bounds();
+
+      if (sceneBounds == null)
+        sceneBounds = new Bounds3(bounds.min(), bounds.max());
+      else
+      {
+        sceneBounds = sceneBounds.union(bounds);
+        sceneBounds.expand(bounds);
+      }
+    }
+  }
+
+  private static void testShape(Shape shape)
+  {
+    shape.translation();
+
+    if (shape instanceof Box box)
+    {
+      box.sx();
+      box.sy();
+      box.sz();
+    }
+    else if (shape instanceof Sphere sphere)
+      sphere.radius();
+    else if (shape instanceof Cylinder cylinder)
+    {
+      cylinder.radius();
+      cylinder.halfHeight();
+    }
+    else if (shape instanceof Capsule capsule)
+    {
+      capsule.radius();
+      capsule.halfHeight();
+    }
+    else if (shape instanceof Composite composite)
+    {
+      for (Shape child : composite.shapes())
+        testShape(child);
+    }
+    else if (shape instanceof CompositeInstance instance)
+      testShape(instance.composite());
   }
 
 } // SceneTest
