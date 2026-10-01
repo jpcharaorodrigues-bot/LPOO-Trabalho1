@@ -5,6 +5,7 @@
  * Guilherme Peres Pinto
  */
 
+import lpoo.geom.*;
 import lpoo.math.*;
 import lpoo.phyx.*;
 
@@ -31,10 +32,29 @@ public final class PhysicsTest
     System.out.println("Quaternion multiplication unit: " +
       q.isUnit());
 
+    Bounds3 boundsA = new Bounds3(
+      new Vector3(0, 0, 0),
+      new Vector3(1, 1, 1));
+
+    Bounds3 boundsB = new Bounds3(
+      new Vector3(-1, -2, -3),
+      new Vector3(2, 3, 4));
+
+    boundsA.expand(boundsB);
+
+    System.out.println("Expanded bounds: " + boundsA);
+
+    Bounds3 unionBounds = boundsA.union(new Bounds3(
+      new Vector3(-4, -1, -1),
+      new Vector3(1, 5, 2)));
+
+    System.out.println("Union bounds: " + unionBounds);
+
     Box box = new Box(
       "box", 1, 2, 3, 4, Pose.IDENTITY);
 
     System.out.println("Box name: " + box.name());
+    System.out.println("Box translation: " + box.translation());
     System.out.println("Box density: " + box.density());
     System.out.println("Box sx: " + box.sx());
     System.out.println("Box sy: " + box.sy());
@@ -75,6 +95,8 @@ public final class PhysicsTest
       "body", instance, pose);
 
     System.out.println("Body name: " + body.name());
+    System.out.println("Body pose translation: " +
+      body.pose().translation());
     System.out.println("Body translation: " + body.translation());
     System.out.println("Body rotation unit: " +
       body.rotation().isUnit());
