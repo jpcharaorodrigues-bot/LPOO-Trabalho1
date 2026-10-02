@@ -67,32 +67,48 @@ public final class SceneTest
     shape.translation();
 
     // Exercita os dados específicos de cada tipo de forma.
-    if (shape instanceof Box box)
+    if (shape instanceof Box)
     {
+      Box box = (Box)shape;
+
       box.sx();
       box.sy();
       box.sz();
     }
-    else if (shape instanceof Sphere sphere)
-      sphere.radius();
-    else if (shape instanceof Cylinder cylinder)
+    else if (shape instanceof Sphere)
     {
+      Sphere sphere = (Sphere)shape;
+
+      sphere.radius();
+    }
+    else if (shape instanceof Cylinder)
+    {
+      Cylinder cylinder = (Cylinder)shape;
+
       cylinder.radius();
       cylinder.halfHeight();
     }
-    else if (shape instanceof Capsule capsule)
+    else if (shape instanceof Capsule)
     {
+      Capsule capsule = (Capsule)shape;
+
       capsule.radius();
       capsule.halfHeight();
     }
-    else if (shape instanceof Composite composite)
+    else if (shape instanceof Composite)
     {
+      Composite composite = (Composite)shape;
+
       // Percorre recursivamente as formas internas.
       for (Shape child : composite.shapes())
         testShape(child);
     }
-    else if (shape instanceof CompositeInstance instance)
+    else if (shape instanceof CompositeInstance)
+    {
+      CompositeInstance instance = (CompositeInstance)shape;
+
       testShape(instance.composite());
+    }
   }
 
 } // SceneTest
