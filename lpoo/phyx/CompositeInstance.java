@@ -57,6 +57,8 @@ public final class CompositeInstance
   public CompositeInstance(String name, Composite composite, Pose pose)
   {
     super(name, pose);
+
+    // Reutiliza as propriedades geométricas do composto referenciado.
     this.composite = composite;
   }
 

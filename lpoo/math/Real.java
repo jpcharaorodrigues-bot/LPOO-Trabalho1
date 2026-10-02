@@ -13,6 +13,7 @@ package lpoo.math;
  */
 public class Real
 {
+  // Tolerância usada nas comparações entre valores reais.
   public static final float EPS = 1e-6f;
 
   private float value;

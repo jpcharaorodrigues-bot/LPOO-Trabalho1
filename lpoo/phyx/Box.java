@@ -46,6 +46,7 @@ public final class Box
     float m = mass();
     float k = m / 3;
 
+    // Tensor de inércia da caixa em relação ao seu centro.
     return Matrix3.diagonal(
       k * (sy * sy + sz * sz),
       k * (sx * sx + sz * sz),
@@ -55,6 +56,7 @@ public final class Box
   @Override
   public Bounds3 bounds()
   {
+    // sx, sy e sz representam as semidimensões da caixa.
     return new Bounds3(
       new Vector3(-sx, -sy, -sz),
       new Vector3(sx, sy, sz));

@@ -26,6 +26,7 @@ public abstract class Primitive
   @Override
   public Vector3 centerOfMass()
   {
+    // Centro de massa padrão dos primitivos analíticos.
     return Vector3.NULL;
   }
 

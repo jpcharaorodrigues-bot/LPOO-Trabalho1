@@ -14,9 +14,10 @@ import lpoo.math.*;
  * @author Paulo Pagliosa
  */
 public abstract class MeshBuilder
-{  
+{
   protected static TriangleMesh build(Vector3[] vertices, Index3[] triangles)
   {
+    // Constrói a malha a partir dos vértices e índices dos triângulos.
     return new TriangleMesh(vertices, triangles);
   }
 

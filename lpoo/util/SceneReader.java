@@ -40,6 +40,7 @@ public final class SceneReader
   {
     Scene scene = new Scene(name);
 
+    // As definições reutilizáveis aparecem antes dos atores.
     while (sc.hasNext("composite"))
       readCompositeDefinition();
 
@@ -61,6 +62,8 @@ public final class SceneReader
       composite.add(readShape());
 
     expect("end");
+
+    // Guarda a definição para uso posterior por instâncias.
     composites.put(name, composite);
   }
 
@@ -166,6 +169,7 @@ public final class SceneReader
 
     File file = new File(filename);
 
+    // Caminhos relativos são resolvidos a partir do arquivo da cena.
     if (!file.isAbsolute())
       file = new File(directory, filename);
 
@@ -179,6 +183,7 @@ public final class SceneReader
     String name = sc.next();
     Composite composite = new Composite(name);
 
+    // Formas compostas podem conter outras formas recursivamente.
     while (!sc.hasNext("end"))
       composite.add(readShape());
 
@@ -217,6 +222,7 @@ public final class SceneReader
   {
     String token = sc.next();
 
+    // Garante que a estrutura do arquivo siga a sintaxe esperada.
     if (!token.equals(value))
       throw new IllegalArgumentException(value + " expected");
   }

@@ -54,6 +54,7 @@ public final class RigidBody
 
   public Vector3 centerOfMass()
   {
+    // Leva o centro de massa da forma ao sistema global.
     Vector3 c = shape.pose().transform(shape.centerOfMass());
 
     return pose.transform(c);
@@ -61,6 +62,7 @@ public final class RigidBody
 
   public Matrix3 inertia()
   {
+    // Combina as rotações da forma e do corpo rígido.
     Matrix3 rb = rotation().toRotationMatrix();
     Matrix3 rs = shape.rotation().toRotationMatrix();
     Matrix3 r = rb.mul(rs);
@@ -73,9 +75,12 @@ public final class RigidBody
     Bounds3 b = shape.bounds();
     Vector3 min = b.min();
     Vector3 max = b.max();
+
+    // Compõe a pose da forma com a pose global do corpo.
     Pose globalPose = pose.compose(shape.pose());
     Bounds3 result = new Bounds3();
 
+    // A nova AABB envolve os oito vértices transformados.
     for (int x = 0; x < 2; x++)
       for (int y = 0; y < 2; y++)
         for (int z = 0; z < 2; z++)

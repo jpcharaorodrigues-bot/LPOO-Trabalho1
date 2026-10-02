@@ -40,6 +40,7 @@ public final class Quaternion
 
   public Quaternion mul(Quaternion q)
   {
+    // Produto de Hamilton entre os dois quaternions.
     return new Quaternion(
       w * q.x + x * q.w + y * q.z - z * q.y,
       w * q.y - x * q.z + y * q.w + z * q.x,
@@ -52,6 +53,7 @@ public final class Quaternion
     if (!isUnit())
       throw new IllegalStateException("Quaternion is not unit");
 
+    // Converte o quaternion unitário para sua matriz de rotação.
     float xx = x * x, yy = y * y, zz = z * z;
     float xy = x * y, xz = x * z, yz = y * z;
     float wx = w * x, wy = w * y, wz = w * z;

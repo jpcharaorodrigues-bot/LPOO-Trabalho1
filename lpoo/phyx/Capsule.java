@@ -26,6 +26,7 @@ public final class Capsule
   @Override
   public float area()
   {
+    // Soma a superfície cilíndrica às duas semiesferas.
     return 4 * (float)Math.PI * radius *
       (halfHeight + radius);
   }
@@ -33,6 +34,7 @@ public final class Capsule
   @Override
   public float volume()
   {
+    // Soma o volume do cilindro ao volume da esfera.
     return 2 * (float)Math.PI * radius * radius * halfHeight +
       4 * (float)Math.PI * radius * radius * radius / 3;
   }
@@ -43,6 +45,7 @@ public final class Capsule
     float pi = (float)Math.PI;
     float r2 = radius * radius;
 
+    // Separa as massas da parte cilíndrica e de cada semiesfera.
     float cylinderMass =
       density() * 2 * pi * r2 * halfHeight;
 
@@ -54,6 +57,7 @@ public final class Capsule
 
     float iyCylinder = cylinderMass * r2 / 2;
 
+    // Distância entre os centros de massa da semiesfera e da cápsula.
     float d = halfHeight + 3 * radius / 8;
 
     float ixHemisphere =

@@ -69,6 +69,7 @@ public final class Composite
 
     for (Shape shape : shapes)
     {
+      // Leva o centro de massa da forma ao referencial do composto.
       Vector3 p = shape.pose().transform(shape.centerOfMass());
 
       c = c.add(p.mul(shape.mass()));
@@ -85,6 +86,7 @@ public final class Composite
 
     for (Shape shape : shapes)
     {
+      // Expressa o tensor da forma no referencial do composto.
       Matrix3 r = shape.rotation().toRotationMatrix();
       Matrix3 i = r.mul(shape.inertia()).mul(r.transpose());
 
@@ -92,6 +94,7 @@ public final class Composite
       Vector3 d = p.sub(c);
       float m = shape.mass();
 
+      // Transfere o tensor para o centro de massa do composto.
       Matrix3 shift = Matrix3.identity()
         .mul(m * d.normSquared())
         .add(Matrix3.outer(d, -m));
@@ -113,6 +116,7 @@ public final class Composite
       Vector3 min = b.min();
       Vector3 max = b.max();
 
+      // Transforma os oito vértices da caixa local da forma.
       for (int x = 0; x < 2; x++)
         for (int y = 0; y < 2; y++)
           for (int z = 0; z < 2; z++)

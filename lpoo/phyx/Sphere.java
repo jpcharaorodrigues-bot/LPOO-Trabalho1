@@ -33,6 +33,7 @@ public final class Sphere
   @Override
   public Matrix3 inertia()
   {
+    // A esfera possui o mesmo momento de inércia nos três eixos.
     float i = 2 * mass() * radius * radius / 5;
 
     return Matrix3.diagonal(i);

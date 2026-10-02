@@ -13,6 +13,7 @@ public final class PhysicsTest
 {
   public static void main(String[] args)
   {
+    // Testa transformação e composição de poses.
     Pose pose = new Pose(
       new Vector3(1, 2, 3),
       Quaternion.IDENTITY);
@@ -32,6 +33,7 @@ public final class PhysicsTest
     System.out.println("Quaternion multiplication unit: " +
       q.isUnit());
 
+    // Testa expansão e união de caixas limitantes.
     Bounds3 boundsA = new Bounds3(
       new Vector3(0, 0, 0),
       new Vector3(1, 1, 1));
@@ -50,6 +52,7 @@ public final class PhysicsTest
 
     System.out.println("Union bounds: " + unionBounds);
 
+    // Testa os dados específicos dos primitivos.
     Box box = new Box(
       "box", 1, 2, 3, 4, Pose.IDENTITY);
 
@@ -79,6 +82,7 @@ public final class PhysicsTest
     System.out.println("Capsule half height: " +
       capsule.halfHeight());
 
+    // Testa composição, instância e propriedades do corpo rígido.
     Composite composite = new Composite("composite");
     composite.add(box);
     composite.add(sphere);

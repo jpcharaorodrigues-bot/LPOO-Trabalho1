@@ -51,6 +51,7 @@ public final class SceneTest
 
       Bounds3 bounds = body.bounds();
 
+      // Acumula os limites dos corpos da cena.
       if (sceneBounds == null)
         sceneBounds = new Bounds3(bounds.min(), bounds.max());
       else
@@ -65,6 +66,7 @@ public final class SceneTest
   {
     shape.translation();
 
+    // Exercita os dados específicos de cada tipo de forma.
     if (shape instanceof Box box)
     {
       box.sx();
@@ -85,6 +87,7 @@ public final class SceneTest
     }
     else if (shape instanceof Composite composite)
     {
+      // Percorre recursivamente as formas internas.
       for (Shape child : composite.shapes())
         testShape(child);
     }

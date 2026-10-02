@@ -17,7 +17,7 @@ import java.util.*;
  * @author Paulo Pagliosa
  */
 public final class ObjReader
-	extends MeshBuilder
+        extends MeshBuilder
 {
   public static TriangleMesh read(String filename)
     throws IOException
@@ -36,6 +36,8 @@ public final class ObjReader
       for (String line; (line = reader.readLine()) != null; )
       {
         line = line.trim();
+
+        // Ignora linhas vazias e comentários do arquivo OBJ.
         if (line.isEmpty() || line.startsWith("#"))
           continue;
 
@@ -55,7 +57,9 @@ public final class ObjReader
             int[] fids = new int[tokens.length - 1];
 
             for (int i = 1; i < tokens.length; i++)
-              fids[i - 1] = parseFaceIndex(tokens[i]); 
+              fids[i - 1] = parseFaceIndex(tokens[i]);
+
+            // Divide faces com mais de três vértices em triângulos.
             for (int i = 1; i < fids.length - 1; i++)
               triangles.add(new Index3(fids[0], fids[i], fids[i + 1]));
             break;
@@ -65,18 +69,19 @@ public final class ObjReader
         }
       }
     }
+
     return MeshBuilder.build(vertices.toArray(new Vector3[0]),
       triangles.toArray(new Index3[0]));
   }
 
   private static int parseFaceIndex(String token)
   {
+    // Converte índices positivos do OBJ, iniciados em 1, para índices Java.
     return Integer.parseInt(token.split("/")[0]) - 1;
   }
 
   private ObjReader()
   {
-    // do nothing
   }
 
 } // ObjReader

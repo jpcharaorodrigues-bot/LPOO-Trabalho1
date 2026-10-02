@@ -26,6 +26,7 @@ public final class Pose
 
   public Vector3 transform(Vector3 p)
   {
+    // Aplica primeiro a rotação e depois a translação.
     return rotation.toRotationMatrix().mul(p).add(translation);
   }
 
@@ -33,6 +34,7 @@ public final class Pose
   {
     Matrix3 r = rotation.toRotationMatrix();
 
+    // Compõe a pose recebida com esta pose.
     return new Pose(
       r.mul(pose.translation).add(translation),
       rotation.mul(pose.rotation));

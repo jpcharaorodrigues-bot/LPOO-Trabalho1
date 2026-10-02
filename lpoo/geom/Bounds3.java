@@ -17,6 +17,7 @@ public final class Bounds3
 {
   public Bounds3()
   {
+    // Permite que o primeiro ponto defina os limites iniciais.
     min = new Vector3(Float.POSITIVE_INFINITY);
     max = new Vector3(Float.NEGATIVE_INFINITY);
   }
@@ -53,6 +54,7 @@ public final class Bounds3
 
   public Bounds3 union(Bounds3 b)
   {
+    // Cria uma nova caixa que contém as duas caixas originais.
     return new Bounds3(Vector3.min(min, b.min), Vector3.max(max, b.max));
   }
 

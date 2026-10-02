@@ -67,6 +67,7 @@ public final class Vector3
 
   public Vector3 cross(Vector3 v)
   {
+    // Produto vetorial entre este vetor e o vetor recebido.
     return new Vector3(
       y * v.z - z * v.y,
       z * v.x - x * v.z,

@@ -56,6 +56,8 @@ public abstract class Shape
   }
 
   private final String name;
+
+  // Pose da forma em relação ao seu referencial pai.
   private Pose pose;
 
 } // Shape

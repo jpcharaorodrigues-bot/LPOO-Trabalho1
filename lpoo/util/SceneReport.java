@@ -53,6 +53,7 @@ public final class SceneReport
     out.println(indent + "Inertia: " + shape.inertia());
     out.println(indent + "AABB: " + shape.bounds());
 
+    // Percorre recursivamente a hierarquia das formas compostas.
     if (shape instanceof Composite)
     {
       Composite composite = (Composite)shape;

@@ -22,6 +22,8 @@ public final class MeshShapeTest
     }
 
     TriangleMesh mesh = ObjReader.read(args[0]);
+
+    // Cria uma forma física a partir da malha carregada.
     Mesh shape = new Mesh("mesh", 1, mesh, Pose.IDENTITY);
 
     System.out.printf("Area: %g\n", shape.area());

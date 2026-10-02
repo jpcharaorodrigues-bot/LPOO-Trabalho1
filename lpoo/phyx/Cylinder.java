@@ -39,6 +39,8 @@ public final class Cylinder
   public Matrix3 inertia()
   {
     float m = mass();
+
+    // O eixo de simetria do cilindro coincide com o eixo y.
     float i = m * (4 * halfHeight * halfHeight +
       3 * radius * radius) / 12;
     float iy = m * radius * radius / 2;
@@ -49,6 +51,7 @@ public final class Cylinder
   @Override
   public Bounds3 bounds()
   {
+    // A altura total se estende de -halfHeight a +halfHeight.
     return new Bounds3(
       new Vector3(-radius, -halfHeight, -radius),
       new Vector3(radius, halfHeight, radius));

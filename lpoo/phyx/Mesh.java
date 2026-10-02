@@ -31,6 +31,7 @@ public final class Mesh
       Vector3 b = mesh.vertex(triangle.j);
       Vector3 c = mesh.vertex(triangle.k);
 
+      // Área do triângulo pelo módulo do produto vetorial.
       area += b.sub(a).cross(c.sub(a)).norm() * 0.5f;
     }
 
@@ -49,6 +50,7 @@ public final class Mesh
       Vector3 b = mesh.vertex(triangle.j);
       Vector3 c = mesh.vertex(triangle.k);
 
+      // Volume orientado do tetraedro formado com a origem.
       volume += a.dot(b.cross(c)) / 6.0f;
     }
 
@@ -70,6 +72,8 @@ public final class Mesh
       float v = a.dot(b.cross(c)) / 6.0f;
 
       volume += v;
+
+      // Acumula o primeiro momento de cada tetraedro.
       moment = moment.add(a.add(b).add(c).mul(v / 4.0f));
     }
 
@@ -99,6 +103,7 @@ public final class Mesh
       signedVolume += v;
       moment = moment.add(s.mul(v / 4.0f));
 
+      // Acumula o segundo momento dos tetraedros.
       q = q.add(Matrix3.outer(s, k))
         .add(Matrix3.outer(a, k))
         .add(Matrix3.outer(b, k))
@@ -109,6 +114,8 @@ public final class Mesh
       return Matrix3.zero();
 
     Vector3 center = moment.mul(1.0f / signedVolume);
+
+    // Corrige o sinal quando a orientação global está invertida.
     float orientation = signedVolume < 0 ? -1.0f : 1.0f;
     float volume = signedVolume * orientation;
 
@@ -121,6 +128,7 @@ public final class Mesh
     Matrix3 inertia = Matrix3.identity().mul(rho * trace)
       .add(q.mul(-rho));
 
+    // Transfere o tensor da origem para o centro de massa.
     return inertia
       .add(Matrix3.identity().mul(-m * center.normSquared()))
       .add(Matrix3.outer(center, m));
@@ -131,6 +139,7 @@ public final class Mesh
   {
     Bounds3 bounds = new Bounds3();
 
+    // A caixa é expandida para conter todos os vértices.
     for (int i = 0; i < mesh.vertexCount(); i++)
       bounds.expand(mesh.vertex(i));
 

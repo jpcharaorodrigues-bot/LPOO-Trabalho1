@@ -42,17 +42,20 @@ public final class TriangleMesh
       vertexCount(),
       triangleCount());
   }
- 
+
   public String dumpToString()
   {
     StringBuilder sb = new StringBuilder();
 
+    // Gera uma listagem textual dos vértices e triângulos da malha.
     sb.append("vertices\n");
     for (int i = 0; i < vertices.length; i++)
       sb.append(String.format("  %d %s\n", i, vertices[i]));
+
     sb.append("triangles\n");
     for (int i = 0; i < triangles.length; i++)
       sb.append(String.format("  %d %s\n", i, triangles[i]));
+
     return sb.toString();
   }
 

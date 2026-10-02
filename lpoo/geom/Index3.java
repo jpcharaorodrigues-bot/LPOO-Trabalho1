@@ -13,6 +13,7 @@ package lpoo.geom;
  */
 public final class Index3
 {
+  // Índices dos três vértices que formam o triângulo.
   public final int i;
   public final int j;
   public final int k;
