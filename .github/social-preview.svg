@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640">
+  <rect width="1280" height="640" fill="#14181f"/>
+  <g stroke="#1a1f27" stroke-width="1">
+    <line x1="0" y1="0" x2="0" y2="640"/><line x1="80" y1="0" x2="80" y2="640"/><line x1="160" y1="0" x2="160" y2="640"/><line x1="240" y1="0" x2="240" y2="640"/><line x1="320" y1="0" x2="320" y2="640"/><line x1="400" y1="0" x2="400" y2="640"/><line x1="480" y1="0" x2="480" y2="640"/><line x1="560" y1="0" x2="560" y2="640"/><line x1="640" y1="0" x2="640" y2="640"/><line x1="720" y1="0" x2="720" y2="640"/><line x1="800" y1="0" x2="800" y2="640"/><line x1="880" y1="0" x2="880" y2="640"/><line x1="960" y1="0" x2="960" y2="640"/><line x1="1040" y1="0" x2="1040" y2="640"/><line x1="1120" y1="0" x2="1120" y2="640"/><line x1="1200" y1="0" x2="1200" y2="640"/><line x1="1280" y1="0" x2="1280" y2="640"/>
+    <line x1="0" y1="0" x2="1280" y2="0"/><line x1="0" y1="80" x2="1280" y2="80"/><line x1="0" y1="160" x2="1280" y2="160"/><line x1="0" y1="240" x2="1280" y2="240"/><line x1="0" y1="320" x2="1280" y2="320"/><line x1="0" y1="400" x2="1280" y2="400"/><line x1="0" y1="480" x2="1280" y2="480"/><line x1="0" y1="560" x2="1280" y2="560"/><line x1="0" y1="640" x2="1280" y2="640"/>
+  </g>
+  <text x="72" y="88" fill="#52a470" font-family="Arial,Helvetica,sans-serif" font-size="30" font-weight="700">UFMS / FACOM</text>
+  <text x="72" y="134" fill="#a3adba" font-family="Arial,Helvetica,sans-serif" font-size="26">LPOO 2026</text>
+  <text x="72" y="232" fill="#eef1f5" font-family="Arial,Helvetica,sans-serif" font-size="58" font-weight="700">Trabalho 1 — Corpos Rígidos 3D</text>
+  <text x="74" y="292" fill="#a3adba" font-family="Arial,Helvetica,sans-serif" font-size="29">Modelo orientado a objetos em Java para geometria, física e cenas tridimensionais.</text>
+  <g font-family="Arial,Helvetica,sans-serif" font-size="22" font-weight="700" fill="#eef1f5">
+    <rect x="74" y="350" width="104" height="52" rx="14" fill="#1b2029" stroke="#3a4352" stroke-width="2"/><text x="96" y="383">JAVA</text>
+    <rect x="192" y="350" width="238" height="52" rx="14" fill="#1b2029" stroke="#3a4352" stroke-width="2"/><text x="214" y="383">CORPOS RÍGIDOS 3D</text>
+    <rect x="444" y="350" width="126" height="52" rx="14" fill="#1b2029" stroke="#3a4352" stroke-width="2"/><text x="466" y="383">MALHAS</text>
+    <rect x="584" y="350" width="102" height="52" rx="14" fill="#1b2029" stroke="#3a4352" stroke-width="2"/><text x="606" y="383">AABB</text>
+  </g>
+  <text x="74" y="574" fill="#a3adba" font-family="Arial,Helvetica,sans-serif" font-size="26">Geometria • Massa • Inércia • Cenas • OBJ</text>
+  <rect x="840" y="94" width="368" height="454" rx="26" fill="#1b2029" stroke="#3a4352" stroke-width="2"/>
+  <g fill="none" stroke="#6f8ec1">
+    <path d="M940 238H1082V380H940Z" stroke-width="5"/>
+    <path d="M895 193H1037V335H895Z" stroke-width="5"/>
+    <path d="M940 238L895 193M1082 238L1037 193M1082 380L1037 335M940 380L895 335" stroke-width="5"/>
+  </g>
+  <g fill="none" stroke="#4d5b70" stroke-width="2">
+    <path d="M895 193L1082 380M1037 193L940 380M895 335L1082 238"/>
+  </g>
+  <rect x="874" y="170" width="229" height="232" fill="none" stroke="#52a470" stroke-width="3"/>
+  <text x="906" y="475" fill="#eef1f5" font-family="Arial,Helvetica,sans-serif" font-size="30" font-weight="700">Rigid Body</text>
+  <text x="924" y="516" fill="#a3adba" font-family="Arial,Helvetica,sans-serif" font-size="25">Mesh + AABB</text>
+</svg>
